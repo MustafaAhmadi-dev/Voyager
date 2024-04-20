@@ -18,6 +18,10 @@ Completely Static Website
 » react-router-dom <br>
 » @tabler/icons-react
 
+<h2> Phase 2 : </h2>
+
+Coming soon... 😉
+
 <h2>Screenshots of the Project 📸</h2>
 <br>
 <h3 align='center'>Home Page 🏡</h3>
