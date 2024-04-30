@@ -1,88 +1,113 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-import { IconChevronRight, IconCircleCheck } from "@tabler/icons-react";
+import Container from "../ui/Container";
+import Heading from "../ui/Heading";
 
-import BgShape from "../images/hero/hero-bg.png";
-import HeroCar from "../images/hero/main-car.png";
+import BgShape from "../assets/hero/hero-bg.png";
+import HeroCar from "../assets/hero/main-car.png";
+
+const StyledHero = styled.section`
+  width: 100%;
+  height: 68dvh;
+  background-color: var(--color-grey-50);
+  position: relative;
+
+  @media (max-width: 450px) {
+    height: 50dvh;
+    background: linear-gradient(
+      to top,
+      var(--color-grey-300) 35%,
+      var(--color-orange-50) 65%
+    );
+  }
+`;
+
+const StyledBG = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+
+  @media (max-width: 800px) {
+    display: none;
+  }
+`;
+
+const HeroContent = styled.div`
+  width: 100%;
+  height: 68dvh;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: 800px) {
+    justify-content: center;
+
+    /* background-color: var(--color-grey-200); */
+  }
+
+  @media (max-width: 450px) {
+    height: 60dvh;
+    align-items: baseline;
+    padding-top: 5rem;
+  }
+`;
+
+const HeroText = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 3;
+  max-width: 50rem;
+  margin-top: 5rem;
+
+  @media (max-width: 800px) {
+    text-align: center;
+    align-items: center;
+  }
+
+  span {
+    color: var(--color-orange-400);
+  }
+`;
+
+const CarImage = styled.img`
+  z-index: 2;
+  position: absolute;
+  right: 0;
+  width: 65%;
+  margin-top: 5rem;
+
+  @media (max-width: 800px) {
+    display: none;
+  }
+`;
 
 function Hero() {
-  const [goUp, setGoUp] = useState(false);
-
-  useEffect(() => {
-    const onPageScroll = () => {
-      if (window.scrollY > 600) {
-        setGoUp(true);
-      } else {
-        setGoUp(false);
-      }
-    };
-    window.addEventListener("scroll", onPageScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onPageScroll);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: (0, 0), behavior: "smooth" });
-  };
-
-  const bookBtn = () => {
-    document
-      .querySelector(".booking-section")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <>
-      <section id="home" className="hero-section">
-        <div className="container">
-          <img className="bg-shape" src={BgShape} alt="bg-shape" />
-          <div className="hero-content">
-            <div className="hero-content__text">
-              <h4>Plan your trip now</h4>
-              <h1>
+      <StyledHero id="home">
+        <Container>
+          <StyledBG src={BgShape} alt="bg-shape" />
+
+          <HeroContent>
+            <HeroText>
+              <Heading as="h4">Plan your trip now</Heading>
+
+              <Heading style={{ marginTop: "1rem", marginBottom: "2.3rem" }}>
                 Save <span>big</span> with our car rental
-              </h1>
-              <p>
+              </Heading>
+
+              <Heading as="p" style={{ marginBottom: "4rem" }}>
                 Rent the car of your dreams. Unbeatable prices, unlimited miles,
                 flexible pick-up options and much more.
-              </p>
-              <div className="hero-content__text__btns">
-                <Link
-                  className="hero-content__text__btns__book-ride"
-                  to="/"
-                  onClick={() => bookBtn()}
-                >
-                  Book Ride &nbsp; <IconCircleCheck />
-                </Link>
-                <Link
-                  className="hero-content__text__btns__learn-more"
-                  to="/about"
-                >
-                  Learn More &nbsp; <IconChevronRight />
-                </Link>
-              </div>
-            </div>
+              </Heading>
+            </HeroText>
 
             {/* img */}
-            <img
-              src={HeroCar}
-              alt="car-img"
-              className="hero-content__car-img"
-            />
-          </div>
-        </div>
-
-        {/* page up */}
-        <div
-          onClick={scrollToTop}
-          className={`scroll-up ${goUp ? "show-scroll" : ""}`}
-        >
-          ^
-        </div>
-      </section>
+            <CarImage src={HeroCar} alt="car-img" className="car-img" />
+          </HeroContent>
+        </Container>
+      </StyledHero>
     </>
   );
 }

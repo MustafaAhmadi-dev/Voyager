@@ -1,38 +1,117 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useVoyager } from "../contexts/VoyagerContext";
+import { toast } from "react-toastify";
+import styled, { css } from "styled-components";
 
-function PersonalInfo({ toggleModal }) {
-  const [inputs, setInputs] = useState({});
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [age, setAge] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [city, setCity] = useState("");
-  // const [zipcode, setZipCode] = useState("");
+const StyeldDiv = styled.div`
+  padding: 3rem 3rem;
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
 
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
+  h4 {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    color: var(--color-orange-100);
+    margin-bottom: 2rem;
+  }
+`;
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    toggleModal();
+const StyeldForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const cols = {
+  single: css`
+    grid-template-columns: 1fr !important;
+  `,
+};
+const StyledBox = styled.div`
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 1rem 0;
+
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--color-grey-900);
+
+      b {
+        color: var(--color-orange-100);
+      }
+    }
+
+    input {
+      padding: 14px 15px;
+      background-color: var(--color-grey-100);
+      color: var(--color-grey-900);
+      font-size: 1.5rem;
+      font-weight: 500;
+      outline: none;
+      border: none;
+    }
+  }
+  ${(props) => cols[props.col]}
+`;
+
+const StyledButton = styled.div`
+  background-color: var(--color-grey-50);
+  margin: 0 -3rem;
+  padding: 3rem;
+  text-align: right;
+
+  @media (max-width: 650px) {
+    text-align: center;
+  }
+
+  button {
+    font-size: 2.4rem;
+    color: var(--color-white);
+    font-weight: 700;
+    background-color: var(--color-orange-200);
+    border: var(--border-light);
+    padding: 1.2rem 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: var(--color-orange-800);
+    }
+  }
+`;
+function PersonalInfo() {
+  const { register, handleSubmit } = useForm();
+  const { dispatch } = useVoyager();
+
+  function onSubmit(data) {
+    console.log(data);
+    dispatch({ type: "orderSubmitted", payload: data });
+    toast.success("Order has been successfully registered");
+  }
+  function onError() {
+    toast.error("Please fill in all the fields");
   }
 
   return (
     <div>
-      <div className="booking-modal__person-info">
+      <StyeldDiv>
         <h4>Personal Information</h4>
-        <form className="info-form" onSubmit={handleSubmit}>
-          <div className="info-form__2col">
+        <StyeldForm onSubmit={handleSubmit(onSubmit, onError)}>
+          <StyledBox>
             <FormField
               label="First Name"
               name="firstName"
-              value={inputs.firstName}
-              onChange={handleChange}
+              register={register}
               type="text"
               placeholder="Enter your first name"
             />
@@ -40,8 +119,7 @@ function PersonalInfo({ toggleModal }) {
             <FormField
               label="Last Name"
               name="lastName"
-              value={inputs.lastName}
-              onChange={handleChange}
+              register={register}
               type="text"
               placeholder="Enter your last name"
             />
@@ -49,8 +127,7 @@ function PersonalInfo({ toggleModal }) {
             <FormField
               label="Phone"
               name="phone"
-              value={inputs.phone}
-              onChange={handleChange}
+              register={register}
               type="tel"
               placeholder="Enter your phone number"
             />
@@ -58,19 +135,17 @@ function PersonalInfo({ toggleModal }) {
             <FormField
               label="Age"
               name="age"
-              value={inputs.age}
-              onChange={handleChange}
+              register={register}
               type="number"
               placeholder="18"
             />
-          </div>
+          </StyledBox>
 
-          <div className="info-form__1col">
+          <StyledBox col="single">
             <FormField
               label="Email"
               name="email"
-              value={inputs.email}
-              onChange={handleChange}
+              register={register}
               type="email"
               placeholder="Enter your email address"
             />
@@ -78,19 +153,17 @@ function PersonalInfo({ toggleModal }) {
             <FormField
               label="Address"
               name="address"
-              value={inputs.address}
-              onChange={handleChange}
+              register={register}
               type="text"
               placeholder="Enter your street address"
             />
-          </div>
+          </StyledBox>
 
-          <div className="info-form__2col">
+          <StyledBox>
             <FormField
               label="City"
               name="city"
-              value={inputs.city}
-              onChange={handleChange}
+              register={register}
               type="text"
               placeholder="Enter your city"
             />
@@ -98,28 +171,22 @@ function PersonalInfo({ toggleModal }) {
             <FormField
               label="Zip Code"
               name="zipCode"
-              value={inputs.zipCode}
-              onChange={handleChange}
+              register={register}
               type="text"
               placeholder="Enter your Zip Code"
             />
-          </div>
+          </StyledBox>
 
-          <span className="info-form__checkbox">
-            <input type="checkbox"></input>
-            <p>Please send me latest news and updates</p>
-          </span>
-
-          <div className="reserve-button">
+          <StyledButton>
             <button>Reserve Now</button>
-          </div>
-        </form>
-      </div>
+          </StyledButton>
+        </StyeldForm>
+      </StyeldDiv>
     </div>
   );
 }
 
-function FormField({ label, name, value, onChange, type, placeholder }) {
+function FormField({ label, name, register, type, placeholder }) {
   return (
     <span>
       <label>
@@ -127,8 +194,7 @@ function FormField({ label, name, value, onChange, type, placeholder }) {
       </label>
       <input
         name={name}
-        value={value || ""}
-        onChange={onChange}
+        {...register(name)}
         type={type}
         placeholder={placeholder}
         required

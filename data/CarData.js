@@ -1,9 +1,9 @@
-import Golf6 from "./golf6.jpg";
-import AudiA1 from "./audia1.jpg";
-import Toyota from "./toyotacamry.jpg";
-import Bmw320 from "./bmw320.jpg";
-import Benz from "./benz.jpg";
-import Passat from "./passatcc.jpg";
+import Golf6 from "../src/assets/cars-big/golf6.jpg";
+import AudiA1 from "../src/assets/cars-big/audia1.jpg";
+import Toyota from "../src/assets/cars-big/toyotacamry.jpg";
+import Bmw320 from "../src/assets/cars-big/bmw320.jpg";
+import Benz from "../src/assets/cars-big/benz.jpg";
+import Passat from "../src/assets/cars-big/passatcc.jpg";
 
 export const CAR_DATA = [
   {

@@ -1,83 +1,87 @@
-import { useEffect, useState } from "react";
-import { IconX } from "@tabler/icons-react";
+import { useEffect } from "react";
+import styled from "styled-components";
+
 import BookCarForm from "./BookCarForm";
 import Modal from "./Modal";
-import { CAR_DATA } from "../../data/CarData";
+
+import Container from "../ui/Container";
+import Heading from "../ui/Heading";
+
+import { useVoyager } from "../contexts/VoyagerContext";
+
+const StyledSection = styled.section`
+  position: relative;
+  background: linear-gradient(
+    to bottom,
+    var(--color-grey-100) 20%,
+    var(--color-white) 80%
+  );
+
+  @media (max-width: 800px) {
+    background: linear-gradient(
+      to bottom,
+      var(--color-grey-300) 35%,
+      var(--color-orange-100) 65%
+    );
+  }
+`;
+
+const Box = styled.div`
+  margin: 0 auto;
+  width: 90dvw;
+  padding: 4rem 4.5rem 5rem 5.5rem;
+  box-shadow: var(--shadow-lg);
+  height: auto;
+  position: relative;
+  z-index: 4;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-grey-900);
+
+  @media (max-width: 800px) {
+    padding: 4rem 3.5rem 5rem 4rem;
+  }
+
+  @media (max-width: 450px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2.5rem 5rem 2.5rem;
+  }
+`;
 
 function BookCar() {
-  const cars = CAR_DATA;
-  const [modal, setModal] = useState(false);
-  const [order, setOrder] = useState({});
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState(false);
+  const { status } = useVoyager();
 
   // disable page scroll when modal is displayed
   useEffect(() => {
-    if (modal === true) {
+    if (status === "submitting") {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [modal]);
-
-  function toggleModal() {
-    setModal((modal) => !modal);
-  }
-
-  function handleOrder(e) {
-    const name = e.target.name;
-    const value = e.target.value;
-    setOrder((order) => ({ ...order, [name]: value }));
-  }
+  }, [status]);
 
   return (
     <>
-      {!modal && (
-        <section className="booking-section">
-          <div className="container">
-            <div className="book-content">
-              <div className="book-content__box">
-                <h2>Book a car</h2>
+      {status === "idle" && (
+        <StyledSection>
+          <Container>
+            <Box>
+              <Heading as="h2" style={{ marginBottom: "2.7rem" }}>
+                Book a car
+              </Heading>
 
-                {error && (
-                  <p className="error-message">
-                    All fields required! <XIcon setValue={setError} />
-                  </p>
-                )}
-
-                {message && (
-                  <p className="booking-done">
-                    Check your email to confirm the order.
-                    <XIcon setValue={setMessage} />
-                  </p>
-                )}
-
-                <BookCarForm
-                  cars={cars}
-                  toggleModal={toggleModal}
-                  order={order}
-                  handleOrder={handleOrder}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+              <BookCarForm />
+            </Box>
+          </Container>
+        </StyledSection>
       )}
 
-      {modal && <Modal toggleModal={toggleModal} order={order} />}
+      {status === "submitting" && <Modal />}
     </>
   );
 }
 
 export default BookCar;
-
-function XIcon({ setValue }) {
-  return (
-    <IconX
-      width={20}
-      height={20}
-      style={{ cursor: "pointer" }}
-      onClick={() => setValue(false)}
-    />
-  );
-}
