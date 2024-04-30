@@ -1,41 +1,66 @@
-import { IconChevronDown } from "@tabler/icons-react";
 import { useState } from "react";
+import styled, { css } from "styled-components";
+import { FaCaretDown } from "react-icons/fa6";
+import Container from "../ui/Container";
+import faqData from "../../data/faqData";
 
-const faqData = [
-  {
-    question: "What is special about comparing rental car deals?",
-    answer:
-      "Comparing rental car deals is important as it helps find the best deal that fits your budget and requirements, ensuring you get the most value for your money. By comparing various options, you can find deals that offer lower prices, additional services, or better car models. You can find car rental deals by researching online and comparing prices from different rental companies.",
-  },
-  {
-    question: "How do I find the car rental deals?",
-    answer:
-      "You can find car rental deals by researching online and comparing prices from different rental companies. Websites such as Expedia, Kayak, and Travelocity allow you to compare prices and view available rental options. It is also recommended to sign up for email newsletters and follow rental car companies on social media to be informed of any special deals or promotions.",
-  },
-  {
-    question: "How do I find such low rental car prices?",
-    answer:
-      "Book in advance: Booking your rental car ahead of time can often result in lower prices. Compare prices from multiple companies: Use websites like Kayak, Expedia, or Travelocity to compare prices from multiple rental car companies. Look for discount codes and coupons: Search for discount codes and coupons that you can use to lower the rental price. Renting from an off-airport location can sometimes result in lower prices.",
-  },
-];
+const StyledSection = styled.section`
+  background-image: url("/src/assets/faq/car.png");
+  height: 100dvh;
+  padding: 7rem 0;
+  margin-top: 3rem;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: 0 70%;
+
+  @media (max-width: 800px) {
+    margin-top: 0;
+  }
+`;
+
+const StyledContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: var(--color-grey-900);
+`;
+
+const StyledTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 80rem;
+  line-height: 1.5;
+
+  h5 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    margin-bottom: 1.7rem;
+  }
+`;
+
+const StyledQuestions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+`;
 
 function Faq() {
   const [curOpen, setCurOpen] = useState(null);
 
   return (
-    <section className="faq-section">
-      <div className="container">
-        <div className="faq-content">
-          <div className="faq-content__title">
+    <StyledSection>
+      <Container>
+        <StyledContent>
+          <StyledTitle>
             <h5>FAQ</h5>
             <h2>Frequently Asked Questions</h2>
-            <p>
-              Frequently Asked Questions About the Car Rental Booking Process on
-              Our Website: Answers to Common Concerns and Inquiries.
-            </p>
-          </div>
+          </StyledTitle>
 
-          <div className="all-questions">
+          <StyledQuestions>
             {faqData.map((data, i) => (
               <FaqItem
                 key={i}
@@ -45,12 +70,83 @@ function Faq() {
                 setCurOpen={setCurOpen}
               />
             ))}
-          </div>
-        </div>
-      </div>
-    </section>
+          </StyledQuestions>
+        </StyledContent>
+      </Container>
+    </StyledSection>
   );
 }
+
+const StyledBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: var(--color-grey-900);
+  background-color: white;
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.1);
+
+  width: 80rem;
+  cursor: pointer;
+
+  @media (max-width: 850px) {
+    width: 100%;
+  }
+`;
+
+const variations = {
+  activeQ: css`
+    background-color: var(--color-orange-900);
+    color: var(--color-white);
+    box-shadow: 0 10px 15px 0 rgb(255 83 48 / 35%);
+  `,
+  activeA: css`
+    max-height: 20rem;
+    padding: 2.8rem 4.5rem;
+    transition: 0.4s ease;
+
+    @media (max-width: 550px) {
+      max-height: 30rem;
+    }
+
+    @media (max-width: 420px) {
+      max-height: 55rem;
+    }
+  `,
+};
+
+const StyledQuestion = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 10%);
+  padding: 1.8rem 4.5rem;
+  transition: 0.15s ease;
+
+  p {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+
+  i {
+    font-size: 2rem;
+  }
+  &:hover {
+    background-color: var(--color-orange-100);
+  }
+
+  ${(props) => variations[props.variation]}
+`;
+
+const StyledAnswer = styled.div`
+  font-size: 1.6rem;
+  color: var(--color-grey-700);
+  line-height: 1.7;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.4s ease;
+  padding: 0 4.5rem;
+
+  ${(props) => variations[props.variation]}
+`;
 
 function FaqItem({ data, num, curOpen, setCurOpen }) {
   const isOpen = curOpen === num;
@@ -59,20 +155,21 @@ function FaqItem({ data, num, curOpen, setCurOpen }) {
     setCurOpen(isOpen ? null : num);
   }
   return (
-    <div className="faq-box">
-      <div
+    <StyledBox>
+      <StyledQuestion
         onClick={() => handleToggle()}
-        className={`faq-box__question ${isOpen ? "active-question" : ""}`}
+        variation={`${isOpen ? "activeQ" : ""}`}
       >
         <p>
           {num} {data.question}
         </p>
-        <IconChevronDown />
-      </div>
-      <div className={`faq-box__answer ${isOpen ? "active-answer" : ""}`}>
+        <FaCaretDown />
+      </StyledQuestion>
+
+      <StyledAnswer variation={`${isOpen ? "activeA" : ""}`}>
         {isOpen && data.answer}
-      </div>
-    </div>
+      </StyledAnswer>
+    </StyledBox>
   );
 }
 

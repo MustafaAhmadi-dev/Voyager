@@ -20,13 +20,31 @@ Completely Static Website
 
 <h2> Phase 2 : </h2>
 
+Half Dynamic Website ( No external database )
+
+<h4> Libraries: </h4>
+
+» react-router-dom version(6)<br>
+» react-hook-form<br>
+» styled-components<br>
+» react-toastify<br>
+» react-icons<br>
+» react-datepicker<br>
+» react-canvas-confetti<br>
+
+<h2> Phase 3 : </h2>
+
 Coming soon... 😉
 
 <h2>Screenshots of the Project 📸</h2>
 <br>
-<h3 align='center'>Home Page 🏡</h3>
 
 <div align='center'>
-<img src='/public/screenshot.png'/>
+<img src='public\ContactD.jpg'/>
+<img src='public\faqD.jpg'/>
+<img src='public\HomeD.jpg'/>
+<img src='public\HomeM.jpg'/>
+<img src='public\ModelsD.jpg'/>
+<img src='public\ModelsM.jpg'/>
 
 </div>

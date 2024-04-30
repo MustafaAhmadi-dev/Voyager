@@ -1,87 +1,135 @@
-import { IconMapPinFilled } from "@tabler/icons-react";
+import styled from "styled-components";
+import { GiPositionMarker } from "react-icons/gi";
 
-import CarAudi from "../images/cars-big/audia1.jpg";
-import CarGolf from "../images/cars-big/golf6.jpg";
-import CarToyota from "../images/cars-big/toyotacamry.jpg";
-import CarBmw from "../images/cars-big/bmw320.jpg";
-import CarMercedes from "../images/cars-big/benz.jpg";
-import CarPassat from "../images/cars-big/passatcc.jpg";
+import { useVoyager } from "../contexts/VoyagerContext";
+import { CAR_DATA } from "../../data/CarData";
 
-function CarInfo({ order }) {
-  const { pickTime, dropTime, pickUp, dropOff, carType } = order;
-  // based on value name show car img
-  let imgUrl;
-  switch (carType) {
-    case "Audi A1 S-Line":
-      imgUrl = CarAudi;
-      break;
-    case "VW Golf 6":
-      imgUrl = CarGolf;
-      break;
-    case "Toyota Camry":
-      imgUrl = CarToyota;
-      break;
-    case "BMW 320 ModernLine":
-      imgUrl = CarBmw;
-      break;
-    case "Mercedes-Benz GLK":
-      imgUrl = CarMercedes;
-      break;
-    case "VW Passat CC":
-      imgUrl = CarPassat;
-      break;
-    default:
-      imgUrl = "";
+const StyledInfo = styled.div`
+  background-color: var(--color-grey-50);
+  padding: 3rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: var(--border-dark);
+
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+    text-align: center;
   }
+`;
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+`;
+
+const StyledModel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+
+  @media (max-width: 650px) {
+    margin-top: 3.5rem;
+  }
+
+  h5 {
+    font-size: 1.8rem;
+    color: var(--color-orange-100);
+
+    span {
+      color: var(--color-grey-900);
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+`;
+
+function CarInfo() {
+  const { dropOffDate, pickUpDate, pickUp, dropOff, carType } = useVoyager();
+
+  const cars = CAR_DATA;
+  const car = cars.find((car) => car.name === carType);
 
   return (
     <>
-      <div className="booking-modal__car-info">
-        <div className="dates-div">
-          <CarInfoBox
-            header="Location & Date"
-            Icon={IconMapPinFilled}
-            title="Pick-Up Date & Time"
-          >
-            {pickTime} / <input type="time" className="input-time"></input>
+      <StyledInfo>
+        <StyledDiv>
+          <CarInfoBox header="Location & Date" title="Pick-Up Date ">
+            {pickUpDate}
           </CarInfoBox>
 
-          <CarInfoBox Icon={IconMapPinFilled} title="Drop-Off Date & Time">
-            {dropTime} / <input type="time" className="input-time"></input>
-          </CarInfoBox>
+          <CarInfoBox title="Drop-Off Date ">{dropOffDate}</CarInfoBox>
 
-          <CarInfoBox Icon={IconMapPinFilled} title="Pick-Up Location">
-            {pickUp || "Belgrade"}
-          </CarInfoBox>
+          <CarInfoBox title="Pick-Up Location">{pickUp}</CarInfoBox>
 
-          <CarInfoBox Icon={IconMapPinFilled} title="Drop-Off Location">
-            {dropOff || "Belgrade"}
-          </CarInfoBox>
-        </div>
+          <CarInfoBox title="Drop-Off Location">{dropOff}</CarInfoBox>
+        </StyledDiv>
 
-        <div className="booking-modal__car-info__model">
+        <StyledModel>
           <h5>
-            <span>Car -</span> {carType || "VW Golf 6"}
+            <span>Car -</span> {car.name}
           </h5>
-          <img src={imgUrl || CarGolf} alt="car_img" />
-        </div>
-      </div>
+          <img src={car.img} alt="car_img" />
+        </StyledModel>
+      </StyledInfo>
     </>
   );
 }
 
-function CarInfoBox({ header, Icon, title, children }) {
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  h5 {
+    font-size: 1.8rem;
+    color: var(--color-orange-100);
+  }
+
+  span {
+    display: flex;
+    gap: 1rem;
+
+    @media (max-width: 650px) {
+      grid-template-columns: 1fr;
+      text-align: center;
+      justify-content: center;
+    }
+
+    h6 {
+      font-size: 1.5rem;
+      margin-bottom: 0.2rem;
+    }
+
+    
+  }
+`;
+
+const StyledIcon = styled(GiPositionMarker)`
+  font-size: 1.8rem;
+  padding-top: 0.2rem;
+  color: var(--color-orange-100);
+
+  @media (max-width: 650px) {
+    display: none;
+  }
+`;
+
+function CarInfoBox({ header, title, children }) {
   return (
-    <div className="booking-modal__car-info__dates">
+    <InfoBox>
       {header && <h5>{header}</h5>}
       <span>
-        <Icon />
+        <StyledIcon />
         <div>
           <h6>{title}</h6>
           <p>{children}</p>
         </div>
       </span>
-    </div>
+    </InfoBox>
   );
 }
 export default CarInfo;
