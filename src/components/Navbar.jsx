@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import Logo from "../assets/logo/logo.png";
+import { useColorMode } from "../contexts/colorModeContext";
 
 const variations = {
   open: css`
@@ -99,6 +100,7 @@ const StyledHamb = styled.div`
 
 function Navbar() {
   const [nav, setNav] = useState(false);
+  const { isOrangeMode, toggleColorMode } = useColorMode();
 
   const openNav = () => {
     setNav(!nav);
@@ -112,6 +114,12 @@ function Navbar() {
           <StyledIcon onClick={openNav}>
             <IoMdClose width={30} height={30} />
           </StyledIcon>
+
+          <StyledBtns>
+            <StyledRegisterBtn onClick={() => toggleColorMode()}>
+              Let&apos;s go {isOrangeMode ? "BLUE" : "ORANGE"}{" "}
+            </StyledRegisterBtn>
+          </StyledBtns>
 
           <StyledMobileLinks>
             <li>
@@ -148,7 +156,10 @@ function Navbar() {
 
         <StyledNavbar>
           {/* desktop */}
-          <DesktopNavbar />
+          <DesktopNavbar
+            isOrangeMode={isOrangeMode}
+            toggleColorMode={toggleColorMode}
+          />
 
           {/* mobile */}
           <StyledHamb onClick={openNav}>
@@ -197,17 +208,13 @@ const StyledLinks = styled.ul`
   }
 `;
 
-// const StyledBtns = styled.div`
-//   display: flex;
-//   gap: 2.5rem;
-//   font-size: 1.6rem;
-//   font-weight: 500;
-//   align-items: center;
-
-//   @media (max-width: 1000px) {
-//     display: none;
-//   }
-// `;
+const StyledBtns = styled.div`
+  display: flex;
+  gap: 2.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  align-items: center;
+`;
 
 // const StyledSignInBtn = styled(Link)`
 //   color: var(--color-grey-900);
@@ -218,24 +225,32 @@ const StyledLinks = styled.ul`
 //   &:hover {
 //     color: var(--color-orange-100);
 //   }
-// `;
 
-// const StyledRegisterBtn = styled(Link)`
-//   background-color: var(--color-orange-100);
-//   color: var(--color-white);
-//   padding: 1.5rem 3rem;
-//   border-radius: 3px;
-//   box-shadow: 0 10px 15px 0 rgb(255 83 48 / 35%);
-//   transition: all 0.3s;
-//   text-decoration: none;
-
-//   &:hover {
-//     box-shadow: 0 10px 15px 0 rgb(255 83 48 / 50%);
-//     background-color: var(--color-orange-600);
+// @media (max-width: 1000px) {
+//   padding: 0.5rem 1rem;
 //   }
 // `;
 
-function DesktopNavbar() {
+const StyledRegisterBtn = styled(Link)`
+  background-color: var(--color-blue);
+  color: var(--color-grey-900);
+  padding: 1rem 2rem;
+  border-radius: 3px;
+  box-shadow: 0 10px 15px 0 rgb(255 83 48 / 35%);
+  transition: all 0.3s;
+  text-decoration: none;
+
+  &:hover {
+    box-shadow: 0 10px 15px 0 rgb(255 83 48 / 50%);
+    background-color: var(--color-blue-800);
+  }
+
+  @media (max-width: 1000px) {
+    padding: 0.5rem 1rem;
+  }
+`;
+
+function DesktopNavbar({ isOrangeMode, toggleColorMode }) {
   return (
     <>
       <StyledImage>
@@ -266,11 +281,13 @@ function DesktopNavbar() {
         </li>
       </StyledLinks>
 
-      {/* <StyledBtns>
-        <StyledSignInBtn to="/">Sign In</StyledSignInBtn>
+      <StyledBtns>
+        {/* <StyledSignInBtn to="/">Sign Up</StyledSignInBtn> */}
 
-        <StyledRegisterBtn to="/">Register</StyledRegisterBtn>
-      </StyledBtns> */}
+        <StyledRegisterBtn onClick={() => toggleColorMode()}>
+          Let&apos;s go {isOrangeMode ? "BLUE" : "ORANGE"}{" "}
+        </StyledRegisterBtn>
+      </StyledBtns>
     </>
   );
 }
