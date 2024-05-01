@@ -22,7 +22,7 @@ const StyledDiv = styled.div`
 
 const StyledIcon = styled(IoCloudDone)`
   font-size: 14rem;
-  color: #30e2ff;
+  color: var(--color-blue);
 `;
 const StyledText = styled.div`
   font-size: 4rem;

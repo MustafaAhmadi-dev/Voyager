@@ -13,6 +13,7 @@ import Order from "./components/Order";
 import GlobalStyles from "./styles/GlobalStyles";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
+import { ColorModeProvider } from "./contexts/colorModeContext";
 // import "../src/dist/styles.css";
 
 function App() {
@@ -51,9 +52,11 @@ function App() {
 
   return (
     <>
-      <GlobalStyles />
-      <RouterProvider router={router} />
-      <ToastContainer style={{}} />
+      <ColorModeProvider>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+        <ToastContainer style={{}} />
+      </ColorModeProvider>{" "}
     </>
   );
 }

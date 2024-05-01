@@ -2,10 +2,8 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 :root{
-  --color-black: #000000;
-  --color-white: #ffffff;
-
-   /* Theme */
+& , &.orange-theme{
+  /* Theme */
   --color-orange-0: #ffeae6;
   --color-orange-50: #ff8f7d;
   --color-orange-100: #ff7963;
@@ -14,6 +12,28 @@ const GlobalStyles = createGlobalStyle`
   --color-orange-600: #ff3717;
   --color-orange-800: #fc2300;
   --color-orange-900: #e32000;
+
+  --color-blue: #30e2ff;
+  --color-blue-800: #00d9fc;
+}
+&.blue-theme{
+  --color-orange-0: #e6fbff;
+  --color-orange-50: #7dedff;
+  --color-orange-100: #63e9ff;
+  --color-orange-200: #4ae6ff;
+  --color-orange-400: #30e2ff;
+  --color-orange-600: #17dfff;
+  --color-orange-800: #00d9fc;
+  --color-orange-900: #00c3e3;
+
+  --color-blue: #ff4d30;
+  --color-blue-800: #fc2300;
+}
+
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+   
     /* Indigo */
   --color-brand-50: #eef2ff;
   --color-brand-100: #e0e7ff;
