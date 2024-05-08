@@ -51,6 +51,6 @@ Coming soon... 😉
 <div align='center'>
 <img src='public\HomeD.jpg'/>
 <img src='public\ContactD.jpg'/>
-<img src='public\faqD.jpg'/>
+<img src='public\faq.jpg'/>
 
 </div>
