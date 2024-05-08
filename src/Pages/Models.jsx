@@ -3,10 +3,11 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import HeroPages from "../components/HeroPages";
 import BookBanner from "../components/BookBanner";
+import Model from "../components/Model";
 
 import Container from "../ui/Container";
-import { CAR_DATA } from "../../data/CarData";
-import Model from "../components/Model";
+import Spinner from "../ui/Spinner";
+import { useVoyager } from "../contexts/VoyagerContext";
 
 const StyledDiv = styled.div`
   display: grid;
@@ -31,17 +32,22 @@ const StyledDiv = styled.div`
 `;
 
 function Models() {
-  const cars = CAR_DATA;
+  // const cars = CARS_DATA;
+  const { cars, status } = useVoyager();
   return (
     <section>
       <HeroPages name="Vehicle Models" />
 
       <Container>
-        <StyledDiv>
-          {cars.map((car) => (
-            <Model key={car.id} car={car} />
-          ))}
-        </StyledDiv>
+        {status !== "ready" ? (
+          <Spinner />
+        ) : (
+          <StyledDiv>
+            {cars.map((car) => (
+              <Model key={car.id} car={car} />
+            ))}
+          </StyledDiv>
+        )}
       </Container>
 
       <BookBanner />

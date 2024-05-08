@@ -46,6 +46,7 @@ const StyledText = styled.div`
 
   h2 {
     font-size: 3.2rem;
+    color: var(--color-white);
   }
 
   span {

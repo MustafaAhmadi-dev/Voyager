@@ -5,7 +5,7 @@ const LOCATION_DATA = [
   },
   {
     id: crypto.randomUUID(),
-    name: "NewYork",
+    name: "Manchester",
   },
   {
     id: crypto.randomUUID(),
@@ -13,7 +13,15 @@ const LOCATION_DATA = [
   },
   {
     id: crypto.randomUUID(),
+    name: "Lyon",
+  },
+  {
+    id: crypto.randomUUID(),
     name: "Rome",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Naples",
   },
   {
     id: crypto.randomUUID(),
@@ -21,7 +29,7 @@ const LOCATION_DATA = [
   },
   {
     id: crypto.randomUUID(),
-    name: "Dubai",
+    name: "Barcelona",
   },
 ];
 

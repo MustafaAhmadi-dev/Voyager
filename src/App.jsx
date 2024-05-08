@@ -10,10 +10,11 @@ import Faq from "./Pages/FaqDownload";
 import PageNotFound from "./Pages/PageNotFound";
 
 import Order from "./components/Order";
+import { ColorModeProvider } from "./contexts/colorModeContext";
+
 import GlobalStyles from "./styles/GlobalStyles";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
-import { ColorModeProvider } from "./contexts/colorModeContext";
 // import "../src/dist/styles.css";
 
 function App() {
@@ -56,7 +57,7 @@ function App() {
         <GlobalStyles />
         <RouterProvider router={router} />
         <ToastContainer style={{}} />
-      </ColorModeProvider>{" "}
+      </ColorModeProvider>
     </>
   );
 }

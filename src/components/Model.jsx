@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { FaCarSide, FaGasPump } from "react-icons/fa6";
-import { GiCarDoor, GiGearStick } from "react-icons/gi";
+import { GiGearStick } from "react-icons/gi";
+import { MdAirlineSeatReclineNormal } from "react-icons/md";
 import { useVoyager } from "../contexts/VoyagerContext";
 
 const StyledBox = styled.div`
@@ -23,8 +24,9 @@ const StyledImage = styled.div`
   border-radius: 0.3rem;
 
   img {
-    width: auto;
+    width: 100%;
     height: 17rem;
+    object-fit: cover;
   }
 `;
 const StyledDescr = styled.div`
@@ -89,7 +91,7 @@ const StyledDetails = styled.div`
     }
   }
 `;
-const StyledButton = styled.div`
+const StyledButton = styled(Link)`
   background-color: var(--color-orange-200);
   padding: 1.8rem 3rem;
   border-radius: 0.3rem;
@@ -98,16 +100,13 @@ const StyledButton = styled.div`
   border: var(--border-theme);
   font-size: 1.8rem;
   cursor: pointer;
+  text-decoration: none;
+  color: var(--color-white);
+  font-weight: 700;
 
   &:hover {
     box-shadow: 0 10px 15px 0 rgb(255 83 48 / 60%);
     background-color: var(--color-orange-400);
-  }
-
-  a {
-    text-decoration: none;
-    color: var(--color-white);
-    font-weight: 700;
   }
 `;
 
@@ -117,7 +116,7 @@ function Model({ car }) {
   return (
     <StyledBox>
       <StyledImage>
-        <img src={car.img} alt="car_img" />
+        <img src={car.image} alt="car_img" />
 
         <StyledDescr>
           <StyledDescrBox>
@@ -126,7 +125,7 @@ function Model({ car }) {
             </StyledName>
 
             <StyledPrice>
-              <h4>${car.price}</h4>
+              <h4>${car.regular_price}</h4>
               <p>per day</p>
             </StyledPrice>
           </StyledDescrBox>
@@ -137,7 +136,7 @@ function Model({ car }) {
             </span>
 
             <span style={{ textAlign: "right" }}>
-              {car.doors} &nbsp; <GiCarDoor />
+              {car.num_seats} &nbsp; <MdAirlineSeatReclineNormal />
             </span>
 
             <span>
@@ -149,16 +148,14 @@ function Model({ car }) {
             </span>
           </StyledDetails>
 
-          <StyledButton>
-            <Link
-              onClick={() => {
-                window.scrollTo(0, 0);
-                dispatch({ type: "carChosen", payload: car.name });
-              }}
-              to="/"
-            >
-              Book Ride
-            </Link>
+          <StyledButton
+            to="/"
+            onClick={() => {
+              window.scrollTo(0, 350);
+              dispatch({ type: "carChosen", payload: car.name });
+            }}
+          >
+            Book Ride
           </StyledButton>
         </StyledDescr>
       </StyledImage>

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { GiPositionMarker } from "react-icons/gi";
 
 import { useVoyager } from "../contexts/VoyagerContext";
-import { CAR_DATA } from "../../data/CarData";
 
 const StyledInfo = styled.div`
   background-color: var(--color-grey-50);
@@ -48,9 +47,8 @@ const StyledModel = styled.div`
 `;
 
 function CarInfo() {
-  const { dropOffDate, pickUpDate, pickUp, dropOff, carType } = useVoyager();
+  const { dropOffDate, pickUpDate, pickUp, dropOff, carType,cars } = useVoyager();
 
-  const cars = CAR_DATA;
   const car = cars.find((car) => car.name === carType);
 
   return (
@@ -72,7 +70,7 @@ function CarInfo() {
           <h5>
             <span>Car -</span> {car.name}
           </h5>
-          <img src={car.img} alt="car_img" />
+          <img src={car.image} alt="car_img" />
         </StyledModel>
       </StyledInfo>
     </>
