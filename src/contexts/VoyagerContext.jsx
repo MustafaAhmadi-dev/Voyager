@@ -1,11 +1,12 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { getCars } from "../services/apiCars";
 
 const VoyagerContext = createContext();
 
 const initialState = {
-  // 'idle', 'submitting', 'error', 'ready'
+  // 'idle', 'submitting', 'isLoading , 'error', 'ready'
   status: "idle",
-  isLoading: false,
+  cars: [],
   error: "",
   carType: "",
   pickUp: "",
@@ -24,6 +25,8 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
+    case "carsFetched":
+      return { ...state, cars: action.payload, status: "ready" };
     case "modalClosed":
       return { ...state, status: "idle" };
     case "requestSubmitted":
@@ -49,8 +52,8 @@ function reducer(state, action) {
         city: action.payload.city,
         zipCode: action.payload.zipCode,
       };
-      case 'carChosen':
-        return { ...state, carType: action.payload}
+    case "carChosen":
+      return { ...state, carType: action.payload };
     case "failed":
       return { ...state, status: "error", error: action.payload };
 
@@ -63,6 +66,7 @@ function VoyagerProvider({ children }) {
   const [
     {
       status,
+      cars,
       error,
       carType,
       pickUp,
@@ -80,9 +84,13 @@ function VoyagerProvider({ children }) {
     },
     dispatch,
   ] = useReducer(reducer, initialState);
+  useEffect(() => {
+    getCars().then((data) => dispatch({ type: "carsFetched", payload: data }));
+  }, []);
   return (
     <VoyagerContext.Provider
       value={{
+        cars,
         status,
         error,
         carType,
@@ -116,4 +124,3 @@ function useVoyager() {
 }
 
 export { VoyagerProvider, useVoyager };
-

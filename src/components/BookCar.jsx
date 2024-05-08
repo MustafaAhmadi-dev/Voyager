@@ -65,7 +65,7 @@ function BookCar() {
 
   return (
     <>
-      {status === "idle" && (
+      {(status === "idle" || status === "ready") && (
         <StyledSection>
           <Container>
             <Box>

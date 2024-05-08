@@ -9,7 +9,6 @@ import { RiMapPin2Fill } from "react-icons/ri";
 
 import Button from "../ui/Button";
 
-import { CAR_DATA } from "../../data/CarData";
 import LOCATION_DATA from "../../data/LocationData";
 import { useVoyager } from "../contexts/VoyagerContext";
 
@@ -45,12 +44,11 @@ const StyledButton = styled(Button)`
 `;
 
 function BookCarForm() {
-  const { dispatch, carType } = useVoyager();
+  const { dispatch, cars, carType } = useVoyager();
 
   const { control, register, handleSubmit, watch } = useForm();
   const pickUpDate = watch("pickUpDate"); // Watch for changes in pickUpDate
 
-  const cars = CAR_DATA;
   const locations = LOCATION_DATA;
 
   function onSubmit(data) {

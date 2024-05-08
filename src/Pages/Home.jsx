@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Hero from "../components/Hero";
 import BookCar from "../components/BookCar";
 
-
 const StyledHome = styled.main`
   max-width: 100dvw;
   display: flex;
@@ -12,12 +11,14 @@ const StyledHome = styled.main`
 `;
 
 function Home() {
-  
   return (
-    <StyledHome >
-      <Hero />
-      <BookCar />
-    </StyledHome>
+    <>
+      {" "}
+      <StyledHome>
+        <Hero />
+        <BookCar />
+      </StyledHome>
+    </>
   );
 }
 

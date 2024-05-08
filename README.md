@@ -34,6 +34,15 @@ Half Dynamic Website ( No external database )
 
 <h2> Phase 3 : </h2>
 
+Dynamic Website ( Supabase as external database )
+
+<h4> Libraries: </h4>
+
+» All the libraries used in Phase 2 + :<br>
+» @supabase/supabase-js<br>
+
+<h2> Phase 4 : </h2>
+
 Coming soon... 😉
 
 <h2>Screenshots of the Project 📸</h2>
@@ -43,8 +52,5 @@ Coming soon... 😉
 <img src='public\ContactD.jpg'/>
 <img src='public\faqD.jpg'/>
 <img src='public\HomeD.jpg'/>
-<img src='public\HomeM.jpg'/>
-<img src='public\ModelsD.jpg'/>
-<img src='public\ModelsM.jpg'/>
 
 </div>

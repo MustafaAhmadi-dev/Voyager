@@ -115,12 +115,6 @@ function Navbar() {
             <IoMdClose width={30} height={30} />
           </StyledIcon>
 
-          <StyledBtns>
-            <StyledRegisterBtn onClick={() => toggleColorMode()}>
-              Let&apos;s go {isOrangeMode ? "BLUE" : "ORANGE"}{" "}
-            </StyledRegisterBtn>
-          </StyledBtns>
-
           <StyledMobileLinks>
             <li>
               <Link onClick={openNav} to="/">
@@ -284,7 +278,7 @@ function DesktopNavbar({ isOrangeMode, toggleColorMode }) {
       <StyledBtns>
         {/* <StyledSignInBtn to="/">Sign Up</StyledSignInBtn> */}
 
-        <StyledRegisterBtn onClick={() => toggleColorMode()}>
+        <StyledRegisterBtn to onClick={() => toggleColorMode()}>
           Let&apos;s go {isOrangeMode ? "BLUE" : "ORANGE"}{" "}
         </StyledRegisterBtn>
       </StyledBtns>
