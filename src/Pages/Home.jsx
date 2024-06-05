@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Hero from "../components/Hero";
-import BookCar from "../components/BookCar";
+import BookCar from "../features/booking/BookCar";
 
 const StyledHome = styled.main`
   max-width: 100dvw;

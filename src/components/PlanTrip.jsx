@@ -1,8 +1,11 @@
 import styled from "styled-components";
+
 import SelectCar from "../assets/plan/icon1.png";
 import Contact from "../assets/plan/icon2.png";
 import Drive from "../assets/plan/icon3.png";
+
 import Container from "../ui/Container";
+import { GridBox } from "../ui/GridBox";
 
 const StyledSection = styled.section`
   background-color: var(--color-grey-50);
@@ -25,24 +28,6 @@ const StyledTitle = styled.div`
 
   h2 {
     margin: 1.3rem 0 3rem 0;
-  }
-`;
-
-const StyledBoxes = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  margin-top: 3.7rem;
-  padding: 0 3rem;
-
-  @media (max-width: 1021px) {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 2rem;
-  }
-
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
-    margin-top: 1rem;
   }
 `;
 
@@ -80,7 +65,7 @@ function PlanTrip() {
               <h2>Quick & easy car rental</h2>
             </StyledTitle>
 
-            <StyledBoxes>
+            <GridBox>
               <StyledBox>
                 <img src={SelectCar} alt="icon_img" />
                 <h3>Select Car</h3>
@@ -107,7 +92,7 @@ function PlanTrip() {
                   with our wide range of cars`}
                 </p>
               </StyledBox>
-            </StyledBoxes>
+            </GridBox>
           </StyledContainer>
         </Container>
       </StyledSection>

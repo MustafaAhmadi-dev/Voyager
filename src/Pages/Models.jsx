@@ -1,53 +1,26 @@
-import styled from "styled-components";
-
+import { useLoaderData } from "react-router-dom";
 import Footer from "../components/Footer";
 import HeroPages from "../components/HeroPages";
 import BookBanner from "../components/BookBanner";
-import Model from "../components/Model";
+import CarItem from "../features/cars/CarItem";
 
 import Container from "../ui/Container";
-import Spinner from "../ui/Spinner";
-import { useVoyager } from "../contexts/VoyagerContext";
+import { GridBox } from "../ui/GridBox";
 
-const StyledDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 3rem;
-  align-items: center;
-  text-align: center;
-  padding: 10rem 0;
-  width: 110rem;
-  margin: 0 auto;
-
-  @media (max-width: 1150px) {
-    grid-template-columns: 1fr 1fr;
-    width: fit-content;
-  }
-
-  @media (max-width: 800px) {
-    grid-template-columns: 1fr;
-    width: fit-content;
-  }
-`;
+import { getAllCars } from "../services/apiCars";
 
 function Models() {
-  // const cars = CARS_DATA;
-  const { cars, status } = useVoyager();
+  const cars = useLoaderData();
   return (
     <section>
       <HeroPages name="Vehicle Models" />
 
       <Container>
-        {status !== "ready" ? (
-          <Spinner />
-        ) : (
-          <StyledDiv>
-            {cars.map((car) => (
-              <Model key={car.id} car={car} />
-            ))}
-          </StyledDiv>
-        )}
+        <GridBox>
+          {cars.map((car) => (
+            <CarItem key={car.id} car={car} />
+          ))}
+        </GridBox>
       </Container>
 
       <BookBanner />
@@ -55,6 +28,11 @@ function Models() {
       <Footer />
     </section>
   );
+}
+
+export async function loader() {
+  const cars = await getAllCars();
+  return cars;
 }
 
 export default Models;

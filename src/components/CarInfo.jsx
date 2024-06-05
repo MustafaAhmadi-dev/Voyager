@@ -47,9 +47,8 @@ const StyledModel = styled.div`
 `;
 
 function CarInfo() {
-  const { dropOffDate, pickUpDate, pickUp, dropOff, carType,cars } = useVoyager();
+  const { dropOffDate, pickUpDate, pickUp, dropOff, car } = useVoyager();
 
-  const car = cars.find((car) => car.name === carType);
 
   return (
     <>
@@ -101,8 +100,6 @@ const InfoBox = styled.div`
       font-size: 1.5rem;
       margin-bottom: 0.2rem;
     }
-
-    
   }
 `;
 

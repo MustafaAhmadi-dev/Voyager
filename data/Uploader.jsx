@@ -20,7 +20,7 @@ export function Uploader() {
     await deleteCars();
     await createCars();
     setIsLoading(false);
-    console.log('sending...')
+    console.log("sending...");
   }
 
   return (
@@ -37,7 +37,7 @@ export function Uploader() {
       <button disabled={isLoading} onClick={() => uploadAll()}>
         Upload All sample Data ...
       </button>
-      <p>Only run this only once!</p>
+      <p>Run this Only once!</p>
       <p>
         <em>(Car images need to be uploaded manually)</em>
       </p>
