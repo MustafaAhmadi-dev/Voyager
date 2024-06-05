@@ -1,13 +1,7 @@
-import { useEffect } from "react";
 import styled from "styled-components";
-
 import BookCarForm from "./BookCarForm";
-import Modal from "./Modal";
-
-import Container from "../ui/Container";
-import Heading from "../ui/Heading";
-
-import { useVoyager } from "../contexts/VoyagerContext";
+import Container from "../../ui/Container";
+import Heading from "../../ui/Heading";
 
 const StyledSection = styled.section`
   position: relative;
@@ -52,34 +46,19 @@ const Box = styled.div`
 `;
 
 function BookCar() {
-  const { status } = useVoyager();
-
-  // disable page scroll when modal is displayed
-  useEffect(() => {
-    if (status === "submitting") {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [status]);
-
   return (
     <>
-      {(status === "idle" || status === "ready") && (
-        <StyledSection>
-          <Container>
-            <Box>
-              <Heading as="h2" style={{ marginBottom: "2.7rem" }}>
-                Book a car
-              </Heading>
+      <StyledSection>
+        <Container>
+          <Box>
+            <Heading as="h2" style={{ marginBottom: "2.7rem" }}>
+              Book a car
+            </Heading>
 
-              <BookCarForm />
-            </Box>
-          </Container>
-        </StyledSection>
-      )}
-
-      {status === "submitting" && <Modal />}
+            <BookCarForm />
+          </Box>
+        </Container>
+      </StyledSection>
     </>
   );
 }

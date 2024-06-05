@@ -1,205 +1,158 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useVoyager } from "../contexts/VoyagerContext";
 import { toast } from "react-toastify";
-import styled, { css } from "styled-components";
 
-const StyeldDiv = styled.div`
-  padding: 3rem 3rem;
-  background-color: var(--color-white);
-  display: flex;
-  flex-direction: column;
+import Form from "../ui/Form";
+import FormRow from "../ui/FormRow";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
 
-  h4 {
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    color: var(--color-orange-100);
-    margin-bottom: 2rem;
-  }
-`;
+import { useBooking } from "../features/booking/useBooking";
+import { useEffect } from "react";
 
-const StyeldForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
+function PersonalInfo({ onCloseModal }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { createOrder, isLoading } = useBooking();
+  const { dispatch, pickUp, dropOff, pickUpDate, dropOffDate, car } =
+    useVoyager();
+  const navigate = useNavigate();
 
-const cols = {
-  single: css`
-    grid-template-columns: 1fr !important;
-  `,
-};
-const StyledBox = styled.div`
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 1rem 0;
-
-  @media (max-width: 650px) {
-    grid-template-columns: 1fr;
+  function handleClose() {
+    onCloseModal?.();
   }
 
-  span {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
+  useEffect(() => {
+    // Disable Scroll when this component is shown
+    document.body.style.overflow = "hidden";
 
-    label {
-      font-size: 1.6rem;
-      font-weight: 500;
-      color: var(--color-grey-900);
-
-      b {
-        color: var(--color-orange-100);
-      }
-    }
-
-    input {
-      padding: 14px 15px;
-      background-color: var(--color-grey-100);
-      color: var(--color-grey-900);
-      font-size: 1.5rem;
-      font-weight: 500;
-      outline: none;
-      border: none;
-    }
-  }
-  ${(props) => cols[props.col]}
-`;
-
-const StyledButton = styled.div`
-  background-color: var(--color-grey-50);
-  margin: 0 -3rem;
-  padding: 3rem;
-  text-align: right;
-
-  @media (max-width: 650px) {
-    text-align: center;
-  }
-
-  button {
-    font-size: 2.4rem;
-    color: var(--color-white);
-    font-weight: 700;
-    background-color: var(--color-orange-200);
-    border: var(--border-light);
-    padding: 1.2rem 2rem;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-      background-color: var(--color-orange-800);
-    }
-  }
-`;
-function PersonalInfo() {
-  const { register, handleSubmit } = useForm();
-  const { dispatch } = useVoyager();
+    // Enable Scroll when this component is not being shown
+    return () => (document.body.style.overflow = "auto");
+  }, []);
 
   function onSubmit(data) {
-    console.log(data);
+    const newBooking = {
+      departure_date: pickUpDate,
+      return_date: dropOffDate,
+      departure_location: pickUp,
+      return_location: dropOff,
+      carId: car.id,
+    };
+
     dispatch({ type: "orderSubmitted", payload: data });
-    toast.success("Order has been successfully registered");
+    createOrder(newBooking);
+    navigate("/order/:orderId");
   }
-  function onError() {
-    toast.error("Please fill in all the fields");
+  function onError(err) {
+    toast.error(err.message);
   }
 
   return (
-    <div>
-      <StyeldDiv>
-        <h4>Personal Information</h4>
-        <StyeldForm onSubmit={handleSubmit(onSubmit, onError)}>
-          <StyledBox>
-            <FormField
-              label="First Name"
-              name="firstName"
-              register={register}
-              type="text"
-              placeholder="Enter your first name"
-            />
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
+      <FormRow label="First name" error={errors?.firstName?.message}>
+        <Input
+          type="text"
+          id="firstName"
+          {...register("firstName", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
 
-            <FormField
-              label="Last Name"
-              name="lastName"
-              register={register}
-              type="text"
-              placeholder="Enter your last name"
-            />
+      <FormRow label="Last name" error={errors?.lastName?.message}>
+        <Input
+          type="text"
+          id="lastName"
+          {...register("lastName", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
 
-            <FormField
-              label="Phone"
-              name="phone"
-              register={register}
-              type="tel"
-              placeholder="Enter your phone number"
-            />
+      <FormRow label="Phone Number" error={errors?.phone?.message}>
+        <Input
+          type="tel"
+          id="phone"
+          {...register("phone", {
+            required: "This field is required",
+            pattern: {
+              value: /^[0-9]+$/,
+              message: "Please provide a valid phone number",
+            },
+            minLength: {
+              value: 5,
+              message:
+                "Please provide a valid phone number (At least 5 numbers)",
+            },
+          })}
+        />
+      </FormRow>
 
-            <FormField
-              label="Age"
-              name="age"
-              register={register}
-              type="number"
-              placeholder="18"
-            />
-          </StyledBox>
+      <FormRow label="Age" error={errors?.age?.message}>
+        <Input
+          type="number"
+          id="age"
+          {...register("age", {
+            required: "This field is required",
+            min: {
+              value: 18,
+              message: "You must be at least 18 to request a car",
+            },
+          })}
+        />
+      </FormRow>
 
-          <StyledBox col="single">
-            <FormField
-              label="Email"
-              name="email"
-              register={register}
-              type="email"
-              placeholder="Enter your email address"
-            />
+      <FormRow label="Email" error={errors?.email?.message}>
+        <Input
+          type="email"
+          id="email"
+          {...register("email", {
+            required: "This field is required",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Please provide a valid email address",
+            },
+          })}
+        />
+      </FormRow>
 
-            <FormField
-              label="Address"
-              name="address"
-              register={register}
-              type="text"
-              placeholder="Enter your street address"
-            />
-          </StyledBox>
+      <FormRow label="Address" error={errors?.address?.message}>
+        <Input
+          type="address"
+          id="address"
+          {...register("address", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
 
-          <StyledBox>
-            <FormField
-              label="City"
-              name="city"
-              register={register}
-              type="text"
-              placeholder="Enter your city"
-            />
+      <FormRow label="City" error={errors?.city?.message}>
+        <Input
+          type="text"
+          id="city"
+          {...register("city", {
+            required: "This field is required",
+          })}
+        />
+      </FormRow>
 
-            <FormField
-              label="Zip Code"
-              name="zipCode"
-              register={register}
-              type="text"
-              placeholder="Enter your Zip Code"
-            />
-          </StyledBox>
-
-          <StyledButton>
-            <button>Reserve Now</button>
-          </StyledButton>
-        </StyeldForm>
-      </StyeldDiv>
-    </div>
-  );
-}
-
-function FormField({ label, name, register, type, placeholder }) {
-  return (
-    <span>
-      <label>
-        {label} <b>*</b>
-      </label>
-      <input
-        name={name}
-        {...register(name)}
-        type={type}
-        placeholder={placeholder}
-        required
-      ></input>
-    </span>
+      <FormRow>
+        {/* type is an HTML attribute! */}
+        <Button variation="secondary" type="reset" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={isLoading}>
+          Submit
+        </Button>
+      </FormRow>
+    </Form>
   );
 }
 

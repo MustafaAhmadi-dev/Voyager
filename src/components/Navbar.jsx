@@ -23,7 +23,7 @@ const StyledMobileNavbar = styled.div`
     var(--color-grey-300) 75%,
     var(--color-orange-100) 25%
   );
-  z-index: 999999;
+  z-index: 99;
   justify-content: center;
   align-items: center;
   transition: all 0.5s ease-in-out;
@@ -79,7 +79,7 @@ const StyledNavbar = styled.div`
   left: 0;
   right: 0;
   background-color: transparent;
-  z-index: 99999;
+  z-index: 99;
   margin: 0 auto;
 `;
 
@@ -248,7 +248,7 @@ function DesktopNavbar({ isOrangeMode, toggleColorMode }) {
   return (
     <>
       <StyledImage>
-        <Link to="/" onClick={() => window.scrollTo(0, 0)}>
+        <Link to="">
           <img src={Logo} alt="logo-img" />
         </Link>
       </StyledImage>

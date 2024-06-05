@@ -1,14 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
-import { getCars } from "../services/apiCars";
+import { createContext, useContext, useReducer } from "react";
 
 const VoyagerContext = createContext();
 
 const initialState = {
-  // 'idle', 'submitting', 'isLoading , 'error', 'ready'
-  status: "idle",
-  cars: [],
+  car: {},
   error: "",
-  carType: "",
   pickUp: "",
   dropOff: "",
   pickUpDate: "",
@@ -25,15 +21,9 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "carsFetched":
-      return { ...state, cars: action.payload, status: "ready" };
-    case "modalClosed":
-      return { ...state, status: "idle" };
     case "requestSubmitted":
       return {
         ...state,
-        status: "submitting",
-        carType: action.payload.carType,
         pickUp: action.payload.pickUp,
         dropOff: action.payload.dropOff,
         pickUpDate: action.payload.pickUpDate,
@@ -42,7 +32,6 @@ function reducer(state, action) {
     case "orderSubmitted":
       return {
         ...state,
-        status: "idle",
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         phone: action.payload.phone,
@@ -53,9 +42,7 @@ function reducer(state, action) {
         zipCode: action.payload.zipCode,
       };
     case "carChosen":
-      return { ...state, carType: action.payload };
-    case "failed":
-      return { ...state, status: "error", error: action.payload };
+      return { ...state, car: action.payload };
 
     default:
       throw new Error("Action unkonwn");
@@ -65,10 +52,8 @@ function reducer(state, action) {
 function VoyagerProvider({ children }) {
   const [
     {
-      status,
-      cars,
+      car,
       error,
-      carType,
       pickUp,
       dropOff,
       pickUpDate,
@@ -84,16 +69,12 @@ function VoyagerProvider({ children }) {
     },
     dispatch,
   ] = useReducer(reducer, initialState);
-  useEffect(() => {
-    getCars().then((data) => dispatch({ type: "carsFetched", payload: data }));
-  }, []);
+
   return (
     <VoyagerContext.Provider
       value={{
-        cars,
-        status,
+        car,
         error,
-        carType,
         pickUp,
         dropOff,
         pickUpDate,

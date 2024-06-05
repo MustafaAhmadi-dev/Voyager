@@ -1,10 +1,12 @@
 import styled from "styled-components";
+
 import HeroPages from "../components/HeroPages";
 import PlanTrip from "../components/PlanTrip";
 import Testimonials from "../components/Testimonials";
 import BookBanner from "../components/BookBanner";
 import Footer from "../components/Footer";
 import ChooseUs from "../components/ChooseUs";
+
 import Container from "../ui/Container";
 import RevealOnScroll from "../ui/RevealOnScroll";
 

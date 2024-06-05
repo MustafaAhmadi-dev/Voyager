@@ -1,20 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 
-import { IoCalendarNumberSharp, IoCarSport } from "react-icons/io5";
+import { IoCalendarNumberSharp } from "react-icons/io5";
 import { GiPositionMarker } from "react-icons/gi";
 import { RiMapPin2Fill } from "react-icons/ri";
 
-import Button from "../ui/Button";
+import Button from "../../ui/Button";
 
-import LOCATION_DATA from "../../data/LocationData";
-import { useVoyager } from "../contexts/VoyagerContext";
+import LOCATION_DATA from "../../../data/LocationData";
+import { useVoyager } from "../../contexts/VoyagerContext";
 
 const StyledForm = styled.form`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   gap: 2rem;
 
@@ -44,32 +44,21 @@ const StyledButton = styled(Button)`
 `;
 
 function BookCarForm() {
-  const { dispatch, cars, carType } = useVoyager();
+  const { dispatch } = useVoyager();
+  const navigate = useNavigate();
 
   const { control, register, handleSubmit, watch } = useForm();
-  const pickUpDate = watch("pickUpDate"); // Watch for changes in pickUpDate
+  const pickUpDate = watch("pickUpDate"); // Watch for changes in pickUpDate since i set the defaultValue of dropOffDate 
 
   const locations = LOCATION_DATA;
 
   function onSubmit(data) {
     dispatch({ type: "requestSubmitted", payload: data });
-  }
-  function onError() {
-    toast.error("Please fill in all the fields");
+    navigate("/cars");
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormOption
-        Icon={IoCarSport}
-        labelTitle="&nbsp; Select Your Car Type"
-        id="carType"
-        register={register}
-        placeholder="Please choose a car"
-        defaultValue={carType}
-        values={cars}
-      />
-
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <FormOption
         Icon={GiPositionMarker}
         labelTitle="&nbsp; Pick-up"
@@ -132,7 +121,7 @@ function BookCarForm() {
       </FormDate>
 
       <StyledButton variation="theme" size="large" type="submit">
-        Submit
+        Search
       </StyledButton>
     </StyledForm>
   );

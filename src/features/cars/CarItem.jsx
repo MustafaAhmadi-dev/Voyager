@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-
 import { FaCarSide, FaGasPump } from "react-icons/fa6";
 import { GiGearStick } from "react-icons/gi";
 import { MdAirlineSeatReclineNormal } from "react-icons/md";
-import { useVoyager } from "../contexts/VoyagerContext";
+
+import PersonalInfo from "../../components/PersonalInfo";
+import Modal from "../../ui/Modal";
+import { useVoyager } from "../../contexts/VoyagerContext";
 
 const StyledBox = styled.div`
   border: 1px solid #d5d5d5;
@@ -91,7 +92,7 @@ const StyledDetails = styled.div`
     }
   }
 `;
-const StyledButton = styled(Link)`
+const StyledButton = styled.button`
   background-color: var(--color-orange-200);
   padding: 1.8rem 3rem;
   border-radius: 0.3rem;
@@ -110,8 +111,13 @@ const StyledButton = styled(Link)`
   }
 `;
 
-function Model({ car }) {
-  const { dispatch } = useVoyager();
+function CarItem({ car }) {
+  const { dispatch,  } = useVoyager();
+
+  function handleClick() {
+    dispatch({ type: "carChosen", payload: car });
+  }
+
 
   return (
     <StyledBox>
@@ -146,21 +152,29 @@ function Model({ car }) {
             <span style={{ textAlign: "right" }}>
               {car.fuel} &nbsp; <FaGasPump />
             </span>
+
+            <span>is Available in </span>
+
+            <span style={{ textAlign: "right" }}>{car.location}</span>
           </StyledDetails>
 
-          <StyledButton
-            to="/"
-            onClick={() => {
-              window.scrollTo(0, 350);
-              dispatch({ type: "carChosen", payload: car.name });
-            }}
-          >
-            Book Ride
-          </StyledButton>
+          <Modal>
+            <Modal.Open opens="Book-Car">
+              <div>
+                <StyledButton onClick={() => handleClick()}>
+                  Book Ride
+                </StyledButton>
+              </div>
+            </Modal.Open>
+
+            <Modal.Window name="Book-Car">
+              <PersonalInfo />
+            </Modal.Window>
+          </Modal>
         </StyledDescr>
       </StyledImage>
     </StyledBox>
   );
 }
 
-export default Model;
+export default CarItem;
