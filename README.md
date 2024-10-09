@@ -49,7 +49,7 @@ Fully Dynamic Website ( Supabase as external database ) + management Panel
 » date-fns<br>
 » react-select-country-list<br>
 
-<h2> Phase 4 : TypeScript version</h2>
+<h2> Phase 5 : TypeScript version</h2>
 
 Fully Dynamic Website ( Supabase as external database ) +<br>
 management Panel (create, update and delete cars, users, bookings, ...)<br>
@@ -60,7 +60,7 @@ equipped with TypeScript
 » All the libraries used in Phase 4 + :<br>
 » As for Styling, I have used Tailwindcss <br>
 
-<h2> Phase 5 : Next.js version</h2>
+<h2> Phase 6 : Next.js version</h2>
 Coming soon... 😉
 
 <h2>Screenshots of the Project 📸</h2>
