@@ -68,7 +68,9 @@ Coming soon... 😉
 
 <div align='center'>
 <img src='public/Home.png'/>
+<hr>
 <img src='public/Vehicles.png'/>
+<hr>
 <img src='public/About.png'/>
 
 </div>
